@@ -1,0 +1,5 @@
+logs/*
+exclude/*
+node_modules/*
+.env
+**/*.js.map
