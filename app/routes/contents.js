@@ -145,13 +145,13 @@ router.post('/get-content', auth.generalAuth, function(req, res) {
       fulfillmentMessages: [
         {
           card: {
-            title: "card title",
-            subtitle: "card text",
-            imageUri: "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+            title: "Lifehacks",
+            subtitle: "Crumblyy",
+            imageUri: "https://s3-us-west-2.amazonaws.com/newlifehacks/crumblyy.png",
             buttons: [
               {
-                text: "button text",
-                postback: "https://assistant.google.com/"
+                text: "Download now",
+                postback: "https://play.google.com/store/apps/details?id=io.tnine.lifehacks_"
               }
             ]
           }
