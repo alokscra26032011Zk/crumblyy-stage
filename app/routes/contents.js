@@ -141,7 +141,7 @@ router.get('/category/list', auth.generalAuth, function(req, resp) {
 router.post('/get-content', auth.generalAuth, function(req, res) {
   if (req.user.success === true) {
     let obj = {
-      fulfillmentText: "This is a text response",
+      fulfillmentText: "Response from crumblyy",
       fulfillmentMessages: [
         {
           card: {
