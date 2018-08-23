@@ -141,7 +141,22 @@ router.get('/category/list', auth.generalAuth, function(req, resp) {
 router.post('/get-content', auth.generalAuth, function(req, res) {
   if (req.user.success === true) {
     let obj = {
-      fulfillmentText: "This is a text response"
+      fulfillmentText: "This is a text response",
+      fulfillmentMessages: [
+        {
+          card: {
+            title: "card title",
+            subtitle: "card text",
+            imageUri: "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+            buttons: [
+              {
+                text: "button text",
+                postback: "https://assistant.google.com/"
+              }
+            ]
+          }
+        }
+      ]
     }
     return res.send(JSON.parse(JSON.stringify(obj)))
   }
