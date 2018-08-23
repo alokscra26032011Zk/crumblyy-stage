@@ -195,7 +195,7 @@ router.post('/get-content', auth.generalAuth, function(req, res) {
         }
       }
     }
-    return res.json(obj)
+    return res.send(JSON.parse(JSON.stringify(obj)))
   }
 });
 
