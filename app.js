@@ -14,6 +14,7 @@
 */
 const bodyParser = require('body-parser');
 const express = require('express');
+const cors = require('cors');
 const resObj = require('./app/response/resObj');
 const sendErrResp = require('./app/response/errorResponse');
 const customMiddleware = require('./app/middleware/general');
@@ -23,6 +24,7 @@ const router = express.Router();
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(cors())
 app.use(customMiddleware.reqLog);
 app.use(customMiddleware.error);
 app.use(customMiddleware.timeout);

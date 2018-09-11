@@ -17,6 +17,12 @@ contents
   Saksham - 2018 05 11 - recent - get list of content sorted by date + after an hid
 */
 const express = require('express');
+const axios = require('axios')
+const cheerio = require('cheerio')
+const fs = require('fs')
+const chalk = require('chalk')
+const request = require('request')
+const lexrank = require('lexrank')
 const auth = require('../middleware/permissions');
 const sendErrResp = require('../response/errorResponse');
 const contentHandler = require('../content/contentHandler');
@@ -137,29 +143,38 @@ router.get('/category/list', auth.generalAuth, function(req, resp) {
   }
 });
 
-// get list of content sorted by date
-router.post('/get-content', auth.generalAuth, function(req, res) {
-  if (req.user.success === true) {
-    let obj = {
-      fulfillmentText: "Response from crumblyy",
-      fulfillmentMessages: [
-        {
-          card: {
-            title: "Lifehacks",
-            subtitle: "Crumblyy",
-            imageUri: "https://s3-us-west-2.amazonaws.com/newlifehacks/crumblyy.png",
-            buttons: [
-              {
-                text: "Download now",
-                postback: "https://play.google.com/store/apps/details?id=io.tnine.lifehacks_"
-              }
-            ]
-          }
-        }
-      ]
-    }
-    return res.send(JSON.parse(JSON.stringify(obj)))
+const getWebsiteContent = async (url) => {
+  let parsedResults = []
+  let resultCount = 0
+  try {
+      const response = await axios.get(url)
+      const $ = cheerio.load(response.data)
+      $('.description').map((i, el) => {
+          const text = $(el).find('p').text()
+          console.log(text);
+          
+          parsedResults.push(text)
+      })
+  } catch (error) {
+      console.error(error)
   }
+  return parsedResults;
+}
+
+
+
+router.get('/textsum/list', function(req, res) {
+  let topSummaries = []
+    lexrank.summarizePage(req.query.url, 20 , function (err, topLines, text) {
+        if (err) {
+          console.log(err);
+        }
+        for(let i=0;i<topLines.length;i++){
+            topSummaries.push({text:topLines[i].text})
+        }
+        return res.json(topSummaries)
+      });
 });
+
 
 module.exports = router;
